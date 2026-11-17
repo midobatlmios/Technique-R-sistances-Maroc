@@ -9,6 +9,7 @@ import { QuoteForm } from '@/components/quote-form'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { contact } from '@/lib/contact'
 import { getProduct, productFamilies } from '@/lib/products'
+import { siteUrl } from '@/lib/site'
 
 export const dynamicParams = false
 
@@ -40,9 +41,9 @@ export default async function ProductPage({ params }: PageProps<'/produits/[slug
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Accueil', item: '/' },
-        { '@type': 'ListItem', position: 2, name: 'Produits', item: '/produits' },
-        { '@type': 'ListItem', position: 3, name: product.title },
+        { '@type': 'ListItem', position: 1, name: 'Accueil', item: siteUrl },
+        { '@type': 'ListItem', position: 2, name: 'Produits', item: `${siteUrl}/produits` },
+        { '@type': 'ListItem', position: 3, name: product.title, item: `${siteUrl}/produits/${product.slug}` },
       ],
     },
     {

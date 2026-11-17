@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import Link from 'next/link'
 import { AlertCircle, ArrowRight, CheckCircle2, Loader2, Paperclip } from 'lucide-react'
 import { contact } from '@/lib/contact'
 import { machineTypes, productFamilies } from '@/lib/catalogue'
@@ -144,7 +145,10 @@ export function QuoteForm({ defaultProduct = '' }: { defaultProduct?: string }) 
       <button className="btn btn-red submit" type="submit" disabled={sending}>
         {sending ? (<>Envoi en cours <Loader2 size={16} className="spin" /></>) : (<>Envoyer ma demande <ArrowRight size={16} /></>)}
       </button>
-      <small className="form-note">Vos informations sont utilisées uniquement pour répondre à votre demande.</small>
+      <small className="form-note">
+        Vos informations sont utilisées uniquement pour répondre à votre demande. Voir notre{' '}
+        <Link href="/confidentialite">politique de confidentialité</Link>.
+      </small>
     </form>
   )
 }

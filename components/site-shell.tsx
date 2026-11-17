@@ -147,7 +147,11 @@ export function SiteFooter() {
         <div className="footer-bottom">
           <div className="container">
             <span>© {new Date().getFullYear()} Technique Résistances Maroc. Tous droits réservés.</span>
-            <span>Fabriqué au Maroc</span>
+            <span className="footer-legal">
+              <Link href="/mentions-legales">Mentions légales</Link>
+              <Link href="/confidentialite">Confidentialité</Link>
+              <span>Fabriqué au Maroc</span>
+            </span>
           </div>
         </div>
       </footer>
