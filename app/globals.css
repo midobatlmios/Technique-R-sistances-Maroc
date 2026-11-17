@@ -517,3 +517,12 @@ p { margin: 0; }
   .embers, .hero-glow { display: none; }
   .motion .reveal { opacity: 1; transform: none; }
 }
+
+/* ---------- Quote form states ---------- */
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-error { display: flex; align-items: flex-start; gap: 10px; margin: 0; padding: 12px 14px; background: var(--red-soft); border-left: 3px solid var(--red); color: var(--red-dark); font-size: 15px; }
+.form-error svg { flex: none; margin-top: 2px; }
+.quote-form .submit:disabled { opacity: .75; cursor: wait; transform: none; }
+.spin { animation: spin .9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.btn:hover .spin { transform: none; }
