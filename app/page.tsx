@@ -3,6 +3,8 @@ import { ArrowRight, CheckCircle2, Wrench } from 'lucide-react'
 import { SiteFooter, SiteHeader } from '@/components/site-shell'
 import { CtaBand, ProcessSteps, ProductGrid, SectorGrid } from '@/components/blocks'
 import { Embers } from '@/components/embers'
+import { MapSection } from '@/components/map-section'
+import { ReferencesMarquee } from '@/components/references'
 import { machines, photo, photos } from '@/lib/catalogue'
 
 const yearsOfExperience = new Date().getFullYear() - 2006
@@ -155,6 +157,21 @@ export default function HomePage() {
             <SectorGrid />
           </div>
         </section>
+
+        <section className="section references-section">
+          <div className="container">
+            <div className="section-head center">
+              <div>
+                <span className="kicker">Nos références</span>
+                <h2>Ils nous font confiance</h2>
+              </div>
+              <p>Des industriels de toutes tailles comptent sur nos solutions de chauffage au quotidien.</p>
+            </div>
+          </div>
+          <ReferencesMarquee />
+        </section>
+
+        <MapSection />
 
         <CtaBand />
       </main>

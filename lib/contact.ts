@@ -10,4 +10,7 @@ export const contact = {
   email: 'contact@trm.ma',
   address: 'Tit Mellil, Casablanca',
   mapsHref: 'https://www.google.com/maps/search/?api=1&query=Technique+R%C3%A9sistances+Maroc+Tit+Mellil',
+  // Map shown on the site. For an exact pin, replace with the "Intégrer une carte" link from the
+  // company's Google Maps listing (Partager → Intégrer une carte → copy the src="…" URL).
+  mapsEmbed: 'https://www.google.com/maps?q=Technique+R%C3%A9sistances+Maroc+Tit+Mellil&output=embed',
 }

@@ -109,6 +109,11 @@ export default function PrivacyPage() {
               Les liens WhatsApp et Google Maps vous redirigent vers des services tiers, soumis à leurs propres
               politiques de confidentialité.
             </p>
+            <p>
+              Les pages d’accueil et de contact affichent une carte Google Maps intégrée. Lors de son chargement,
+              Google peut collecter des données techniques (adresse IP, cookies) selon sa propre politique de
+              confidentialité.
+            </p>
 
             <h2>Sécurité</h2>
             <p>

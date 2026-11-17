@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ArrowRight, Clock, FileDown, Mail, MapPin, Menu, Phone, X } from 'lucide-react'
+import { ArrowRight, Clock, FileDown, Mail, MapPin, Menu, Navigation as RouteIcon, Phone, X } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { contact } from '@/lib/contact'
 
@@ -140,6 +140,7 @@ export function SiteFooter() {
               <li><Phone size={16} /> <a href={contact.phoneHref}>{contact.phoneDisplay}</a></li>
               <li><Phone size={16} /> <a href={contact.mobileHref}>{contact.mobileDisplay}</a></li>
               <li><Mail size={16} /> <a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+              <li><RouteIcon size={16} /> <a href={contact.mapsHref} target="_blank" rel="noreferrer">Voir l’itinéraire</a></li>
               <li><ArrowRight size={16} /> <Link href="/contact">Demander un devis</Link></li>
             </ul>
           </div>

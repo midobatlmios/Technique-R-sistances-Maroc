@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Mail, MapPin, Phone, Smartphone } from 'lucide-react'
 import { SiteFooter, SiteHeader } from '@/components/site-shell'
 import { PageHeader } from '@/components/blocks'
+import { MapSection } from '@/components/map-section'
 import { QuoteForm } from '@/components/quote-form'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { contact } from '@/lib/contact'
@@ -58,6 +59,8 @@ export default async function ContactPage({ searchParams }: PageProps<'/contact'
             <QuoteForm defaultProduct={defaultProduct} />
           </div>
         </section>
+
+        <MapSection />
       </main>
       <SiteFooter />
     </>
