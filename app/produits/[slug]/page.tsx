@@ -5,6 +5,8 @@ import { ArrowRight, ChevronRight, ClipboardList, Plus } from 'lucide-react'
 import { SiteFooter, SiteHeader } from '@/components/site-shell'
 import { CtaBand, ProductCard } from '@/components/blocks'
 import { ProductArt } from '@/components/product-art'
+import { ProductGallery } from '@/components/product-gallery'
+import { getProductPhotos } from '@/lib/product-photos'
 import { QuoteForm } from '@/components/quote-form'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { contact } from '@/lib/contact'
@@ -31,6 +33,7 @@ export default async function ProductPage({ params }: PageProps<'/produits/[slug
   if (!product) notFound()
 
   const index = productFamilies.indexOf(product)
+  const photos = getProductPhotos(product.slug)
   const related = product.related.map(getProduct).filter((p) => p !== undefined)
   const whatsappHref = `${contact.whatsappHref.split('?')[0]}?text=${encodeURIComponent(
     `Bonjour, je souhaite un devis pour : ${product.title}.`,
@@ -87,10 +90,14 @@ export default async function ProductPage({ params }: PageProps<'/produits/[slug
                   </a>
                 </div>
               </div>
-              <div className="product-hero-art">
-                <ProductArt name={product.art} />
-                <span>Illustration · photo du produit à venir</span>
-              </div>
+              {photos.length > 0 ? (
+                <ProductGallery photos={photos} art={product.art} title={product.title} />
+              ) : (
+                <div className="product-hero-art">
+                  <ProductArt name={product.art} />
+                  <span>Illustration · photo du produit à venir</span>
+                </div>
+              )}
             </div>
           </div>
         </section>

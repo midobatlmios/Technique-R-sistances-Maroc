@@ -6,6 +6,8 @@ import { contact } from '@/lib/contact'
 import { processSteps, sectors } from '@/lib/catalogue'
 import { Photo } from '@/components/photo'
 import { productFamilies, type Product } from '@/lib/products'
+import { getProductPhotos } from '@/lib/product-photos'
+import Image from 'next/image'
 
 export function PageHeader({
   title,
@@ -41,11 +43,20 @@ export function PageHeader({
 export function ProductCard({ product }: { product: Product }) {
   const { slug, title, detail, art, tags } = product
   const index = productFamilies.findIndex((p) => p.slug === slug)
+  const [main, second] = getProductPhotos(slug)
+  const sizes = '(max-width: 640px) 100vw, (max-width: 900px) 50vw, 320px'
   return (
     <Link className="product-card" href={`/produits/${slug}`}>
-      <div className="product-art">
+      <div className={main ? 'product-art product-art-photo' : 'product-art'}>
+        {main ? (
+          <>
+            <Image className="photo-fill" src={main.src} alt="" fill sizes={sizes} />
+            {second && <Image className="photo-fill product-photo-alt" src={second.src} alt="" fill sizes={sizes} />}
+          </>
+        ) : (
+          <ProductArt name={art} />
+        )}
         <span className="product-num">{String(index + 1).padStart(2, '0')}</span>
-        <ProductArt name={art} />
       </div>
       <div className="product-body">
         <h3>{title}</h3>
