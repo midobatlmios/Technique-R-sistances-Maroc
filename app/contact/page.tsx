@@ -5,7 +5,7 @@ import { PageHeader } from '@/components/blocks'
 import { MapSection } from '@/components/map-section'
 import { QuoteForm } from '@/components/quote-form'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
-import { contact } from '@/lib/contact'
+import { contact, publicEmail } from '@/lib/contact'
 import { photos } from '@/lib/catalogue'
 import { getProduct } from '@/lib/products'
 
@@ -22,7 +22,7 @@ export default async function ContactPage({ searchParams }: PageProps<'/contact'
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         <PageHeader
           crumb="Contact"
           title="Demande de"
@@ -44,10 +44,12 @@ export default async function ContactPage({ searchParams }: PageProps<'/contact'
                 <span><Smartphone size={20} /></span>
                 <div><small>Mobile</small><a href={contact.mobileHref}>{contact.mobileDisplay}</a></div>
               </div>
-              <div className="contact-line">
-                <span><Mail size={20} /></span>
-                <div><small>Email</small><a href={`mailto:${contact.email}`}>{contact.email}</a></div>
-              </div>
+              {publicEmail && (
+                <div className="contact-line">
+                  <span><Mail size={20} /></span>
+                  <div><small>Email</small><a href={`mailto:${publicEmail}`}>{publicEmail}</a></div>
+                </div>
+              )}
               <div className="contact-line">
                 <span><MapPin size={20} /></span>
                 <div><small>Atelier</small><a href={contact.mapsHref} target="_blank" rel="noreferrer">{contact.address}, Maroc</a></div>

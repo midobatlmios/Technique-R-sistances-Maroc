@@ -140,10 +140,45 @@ const art: Record<ArtKey, ReactNode> = {
   ),
 }
 
+// Dimension lines, drawn like a technical drawing: thin grey line, end ticks, a symbol
+// (Ø, L, H…) and no numbers, since every part is made to the customer's sizes.
+function H(x1: number, x2: number, y: number, label: string) {
+  const mid = (x1 + x2) / 2
+  return (
+    <g>
+      <path d={`M${x1} ${y} H${mid - 7} M${mid + 7} ${y} H${x2} M${x1} ${y - 4} v8 M${x2} ${y - 4} v8`} />
+      <text x={mid} y={y + 3} textAnchor="middle">{label}</text>
+    </g>
+  )
+}
+
+function V(x: number, y1: number, y2: number, label: string) {
+  const mid = (y1 + y2) / 2
+  return (
+    <g>
+      <path d={`M${x} ${y1} V${mid - 6} M${x} ${mid + 6} V${y2} M${x - 4} ${y1} h8 M${x - 4} ${y2} h8`} />
+      <text x={x} y={mid + 3} textAnchor="middle">{label}</text>
+    </g>
+  )
+}
+
+const dims: Partial<Record<ArtKey, ReactNode>> = {
+  collier: <>{H(40, 160, 32, 'Ø')}{V(176, 62, 96, 'l')}</>,
+  thermoplongeur: <>{V(178, 60, 136, 'L')}</>,
+  blindee: <>{H(30, 170, 126, 'L')}{V(186, 60, 100, 'e')}</>,
+  cartouche: <>{H(22, 142, 42, 'L')}{V(9, 62, 88, 'Ø')}</>,
+  barillet: <>{H(56, 144, 138, 'Ø')}{V(162, 40, 110, 'H')}</>,
+  formable: <>{H(20, 110, 56, 'L')}</>,
+  infrarouge: <>{H(20, 180, 138, 'L')}</>,
+  silicone: <>{H(36, 174, 20, 'L')}</>,
+  isolation: <>{H(30, 172, 136, 'L')}{V(188, 48, 112, 'Ø')}</>,
+}
+
 export function ProductArt({ name }: { name: ArtKey }) {
   return (
     <svg viewBox="0 0 200 150" role="img" aria-hidden="true" strokeLinejoin="round">
       {art[name]}
+      {dims[name] && <g className="dim">{dims[name]}</g>}
     </svg>
   )
 }

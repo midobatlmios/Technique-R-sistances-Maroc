@@ -8,3 +8,8 @@ export const siteUrl = (
 ).replace(/\/$/, '')
 
 export const siteName = 'Technique Résistances Maroc'
+
+// Demo mode (NEXT_PUBLIC_DEMO=1): shows content still waiting on the client (placeholder email,
+// empty reference slots, "[à compléter]" legal fields) so they can review it. Leave it unset on
+// the live site: unconfirmed content is then hidden instead of shown to visitors.
+export const isDemo = process.env.NEXT_PUBLIC_DEMO === '1'

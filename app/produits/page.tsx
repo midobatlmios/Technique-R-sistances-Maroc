@@ -20,7 +20,7 @@ export default function ProductsPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         <PageHeader
           crumb="Produits"
           title="Nos résistances"

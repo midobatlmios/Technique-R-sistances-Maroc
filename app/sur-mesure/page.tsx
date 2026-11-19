@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { ArrowRight, Camera, CheckCircle2, FileText, Package } from 'lucide-react'
 import { SiteFooter, SiteHeader } from '@/components/site-shell'
 import { CtaBand, PageHeader, ProcessSteps } from '@/components/blocks'
-import { photo, photos } from '@/lib/catalogue'
+import { Photo } from '@/components/photo'
+import { photos } from '@/lib/catalogue'
 
 export const metadata: Metadata = {
   title: 'Résistance chauffante sur mesure | Technique Résistances Maroc',
@@ -21,7 +22,7 @@ export default function CustomPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         <PageHeader
           crumb="Sur mesure"
           title="Votre résistance"
@@ -64,7 +65,7 @@ export default function CustomPage() {
 
         <section className="section">
           <div className="container split">
-            <div className="split-photo" style={{ backgroundImage: `url(${photo(photos.tubular, 1200)})` }} />
+            <div className="split-photo"><Photo id={photos.tubular} sizes="(max-width: 900px) 100vw, 600px" /></div>
             <div>
               <span className="kicker">Ce que nous adaptons</span>
               <h2>Chaque détail selon votre besoin</h2>

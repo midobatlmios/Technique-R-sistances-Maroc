@@ -9,12 +9,37 @@ import { machineTypes, productFamilies } from '@/lib/catalogue'
 const MAX_FILE_BYTES = 4 * 1024 * 1024
 
 type Sent = { reference: string; summary: string; name: string }
+type FieldErrors = Partial<Record<'nom' | 'email' | 'telephone' | 'message', string>>
+
+// Checked before sending, so each field can say what is wrong next to it.
+function validate(get: (key: string) => string): FieldErrors {
+  const errors: FieldErrors = {}
+  if (!get('nom')) errors.nom = 'Indiquez votre nom.'
+  const email = get('email')
+  if (!email) errors.email = 'Indiquez votre email pour recevoir le devis.'
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = 'Cet email semble incomplet (exemple : vous@entreprise.ma).'
+  const phoneDigits = get('telephone').replace(/\D/g, '')
+  if (!phoneDigits) errors.telephone = 'Indiquez un numéro pour vous rappeler.'
+  else if (phoneDigits.length < 9) errors.telephone = 'Ce numéro semble trop court (exemple : 06 00 00 00 00).'
+  if (!get('message')) errors.message = 'Décrivez votre besoin en quelques mots.'
+  return errors
+}
+
+// Props that tie a field to its error message for screen readers.
+const fieldProps = (errors: FieldErrors, name: keyof FieldErrors) =>
+  errors[name] ? { 'aria-invalid': true as const, 'aria-describedby': `err-${name}` } : {}
+
+function FieldError({ errors, name }: { errors: FieldErrors; name: keyof FieldErrors }) {
+  if (!errors[name]) return null
+  return <span className="field-error" id={`err-${name}`}>{errors[name]}</span>
+}
 
 export function QuoteForm({ defaultProduct = '' }: { defaultProduct?: string }) {
   const [sent, setSent] = useState<Sent | null>(null)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
   const [fileName, setFileName] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
   const startedAt = useRef(0)
 
   useEffect(() => {
@@ -28,6 +53,14 @@ export function QuoteForm({ defaultProduct = '' }: { defaultProduct?: string }) 
 
     const data = new FormData(event.currentTarget)
     const get = (key: string) => String(data.get(key) ?? '').trim()
+
+    const errors = validate(get)
+    setFieldErrors(errors)
+    const firstInvalid = Object.keys(errors)[0]
+    if (firstInvalid) {
+      event.currentTarget.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)?.focus()
+      return
+    }
 
     const file = data.get('fichier')
     if (file instanceof File && file.size > MAX_FILE_BYTES) {
@@ -87,18 +120,28 @@ export function QuoteForm({ defaultProduct = '' }: { defaultProduct?: string }) 
   }
 
   return (
-    <form className="quote-form" onSubmit={handleSubmit} aria-busy={sending}>
+    <form
+      className="quote-form"
+      onSubmit={handleSubmit}
+      aria-busy={sending}
+      noValidate
+      onChange={(event) => {
+        const name = (event.target as unknown as HTMLInputElement).name as keyof FieldErrors
+        if (fieldErrors[name]) setFieldErrors(({ [name]: _cleared, ...rest }) => rest)
+      }}
+    >
       <div className="form-heading">
         <strong>Demande de devis</strong>
         <span>Réponse sous 48h ouvrées</span>
       </div>
+      <p className="form-required">Les champs marqués * sont obligatoires.</p>
       <div className="form-row">
-        <label>Votre nom *<input name="nom" placeholder="Nom et prénom" autoComplete="name" maxLength={120} required /></label>
+        <label>Votre nom *<input name="nom" placeholder="Nom et prénom" autoComplete="name" maxLength={120} required {...fieldProps(fieldErrors, 'nom')} /><FieldError errors={fieldErrors} name="nom" /></label>
         <label>Entreprise<input name="entreprise" placeholder="Nom de l’entreprise" autoComplete="organization" maxLength={120} /></label>
       </div>
       <div className="form-row">
-        <label>Email professionnel *<input type="email" name="email" placeholder="vous@entreprise.ma" autoComplete="email" maxLength={160} required /></label>
-        <label>Téléphone *<input type="tel" name="telephone" placeholder="06 00 00 00 00" autoComplete="tel" maxLength={40} required /></label>
+        <label>Email professionnel *<input type="email" name="email" placeholder="vous@entreprise.ma" autoComplete="email" maxLength={160} required {...fieldProps(fieldErrors, 'email')} /><FieldError errors={fieldErrors} name="email" /></label>
+        <label>Téléphone *<input type="tel" name="telephone" placeholder="06 00 00 00 00" autoComplete="tel" maxLength={40} required {...fieldProps(fieldErrors, 'telephone')} /><FieldError errors={fieldErrors} name="telephone" /></label>
       </div>
       <label>
         Type de produit
@@ -121,7 +164,8 @@ export function QuoteForm({ defaultProduct = '' }: { defaultProduct?: string }) 
       </div>
       <label>
         Décrivez votre projet *
-        <textarea name="message" placeholder="Application, fluide ou matière à chauffer, température visée…" rows={4} maxLength={4000} required />
+        <textarea name="message" placeholder="Application, fluide ou matière à chauffer, température visée…" rows={4} maxLength={4000} required {...fieldProps(fieldErrors, 'message')} />
+        <FieldError errors={fieldErrors} name="message" />
       </label>
       <label className="file-input">
         <Paperclip size={15} />

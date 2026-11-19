@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { SiteFooter, SiteHeader } from '@/components/site-shell'
 import { PageHeader } from '@/components/blocks'
-import { LegalField } from '@/components/legal-field'
-import { contact } from '@/lib/contact'
+import { LegalRow } from '@/components/legal-field'
+import { contact, publicEmail } from '@/lib/contact'
 import { company, host, lastUpdated } from '@/lib/legal'
 import { photos } from '@/lib/catalogue'
 
@@ -16,7 +16,7 @@ export default function LegalNoticePage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         <PageHeader
           crumb="Mentions légales"
           title="Mentions"
@@ -29,15 +29,15 @@ export default function LegalNoticePage() {
             <h2>Éditeur du site</h2>
             <dl className="legal-list">
               <dt>Raison sociale</dt><dd>{company.name}</dd>
-              <dt>Forme juridique</dt><dd><LegalField value={company.legalForm} /></dd>
-              <dt>Capital social</dt><dd><LegalField value={company.capital} /></dd>
+              <LegalRow label="Forme juridique" value={company.legalForm} />
+              <LegalRow label="Capital social" value={company.capital} />
               <dt>Siège social</dt><dd>{company.address}</dd>
-              <dt>Registre du commerce</dt><dd><LegalField value={company.rc} /></dd>
-              <dt>ICE</dt><dd><LegalField value={company.ice} /></dd>
-              <dt>Identifiant fiscal</dt><dd><LegalField value={company.ifNumber} /></dd>
+              <LegalRow label="Registre du commerce" value={company.rc} />
+              <LegalRow label="ICE" value={company.ice} />
+              <LegalRow label="Identifiant fiscal" value={company.ifNumber} />
               <dt>Téléphone</dt><dd><a href={contact.phoneHref}>{contact.phoneDisplay}</a></dd>
-              <dt>Email</dt><dd><a href={`mailto:${contact.email}`}>{contact.email}</a></dd>
-              <dt>Directeur de la publication</dt><dd><LegalField value={company.director} /></dd>
+              {publicEmail && <><dt>Email</dt><dd><a href={`mailto:${publicEmail}`}>{publicEmail}</a></dd></>}
+              <LegalRow label="Directeur de la publication" value={company.director} />
             </dl>
 
             <h2>Hébergement</h2>

@@ -9,7 +9,7 @@ const REVEAL = [
   '.product-card',
   '.machine-card',
   '.step',
-  '.sector-card',
+  '.sector-row',
   '.info-card',
   '.split > *',
   '.machine-row',

@@ -2,7 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Barlow, Barlow_Condensed } from 'next/font/google'
 import { Motion } from '@/components/motion'
-import { contact } from '@/lib/contact'
+import { publicEmail } from '@/lib/contact'
 import { siteName, siteUrl } from '@/lib/site'
 import './globals.css'
 
@@ -31,8 +31,8 @@ export const metadata: Metadata = {
     type: 'website',
   },
   icons: {
-    icon: '/logo-red.png',
-    apple: '/logo-red.png',
+    icon: '/trm-icon.png',
+    apple: '/trm-apple-icon.png',
   },
 }
 
@@ -48,7 +48,7 @@ const localBusiness = {
   logo: `${siteUrl}/logo-red.png`,
   image: `${siteUrl}/opengraph-image`,
   telephone: '+212522720370',
-  email: contact.email,
+  ...(publicEmail && { email: publicEmail }),
   foundingDate: '2006',
   address: {
     '@type': 'PostalAddress',

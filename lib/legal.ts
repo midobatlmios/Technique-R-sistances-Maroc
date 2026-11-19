@@ -1,3 +1,5 @@
+import { isDemo } from '@/lib/site'
+
 // Legal information shown on /mentions-legales and /confidentialite.
 // Values marked TODO must be provided by the client before launch (see their registration documents).
 const TODO = '[à compléter]'
@@ -24,3 +26,6 @@ export const host = {
 export const lastUpdated = 'novembre 2026'
 
 export const isTodo = (value: string) => value === TODO
+
+// Missing values are highlighted in demo mode and left out on the live site.
+export const showLegal = (value: string) => !isTodo(value) || isDemo

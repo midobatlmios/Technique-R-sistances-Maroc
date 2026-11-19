@@ -1,9 +1,10 @@
 import Link from 'next/link'
-import { ArrowRight, ChefHat, ChevronRight, Droplets, Factory, Flame, Layers, Package, Phone } from 'lucide-react'
+import { ArrowRight, ChevronRight, Phone } from 'lucide-react'
 import { ProductArt } from '@/components/product-art'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { contact } from '@/lib/contact'
-import { photo, processSteps, sectors } from '@/lib/catalogue'
+import { processSteps, sectors } from '@/lib/catalogue'
+import { Photo } from '@/components/photo'
 import { productFamilies, type Product } from '@/lib/products'
 
 export function PageHeader({
@@ -21,7 +22,7 @@ export function PageHeader({
 }) {
   return (
     <section className="page-header">
-      <div className="page-header-bg" style={{ backgroundImage: `url(${photo(image, 1800)})` }} />
+      <div className="page-header-bg"><Photo id={image} sizes="100vw" preload /></div>
       <div className="container">
         <nav className="breadcrumb" aria-label="Fil d’Ariane">
           <Link href="/">Accueil</Link>
@@ -66,36 +67,27 @@ export function ProductGrid({ withCta = true }: { withCta?: boolean }) {
         <div className="product-card product-card-cta">
           <h3>Un besoin spécifique ?</h3>
           <p>Envoyez-nous un plan ou une photo de la pièce à remplacer. Nous la fabriquons sur mesure.</p>
-          <Link className="btn btn-white" href="/contact">Envoyer ma demande</Link>
+          <Link className="btn btn-red" href="/contact">Envoyer ma demande <ArrowRight size={18} /></Link>
         </div>
       )}
     </div>
   )
 }
 
-const sectorIcons = { droplets: Droplets, factory: Factory, layers: Layers, chef: ChefHat, package: Package, flame: Flame }
-
 export function SectorGrid({ light = false }: { light?: boolean }) {
   return (
-    <div className={light ? 'light-sectors' : undefined}>
-      <div className="sector-grid">
-        {sectors.map(({ title, description, products, icon }) => {
-          const Icon = sectorIcons[icon]
-          return (
-            <div className="sector-card" key={title}>
-              <span className="sector-icon"><Icon size={26} strokeWidth={1.8} /></span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-              {light && (
-                <ul className="sector-products">
-                  {products.map((p) => <li key={p}>{p}</li>)}
-                </ul>
-              )}
-            </div>
-          )
-        })}
-      </div>
-    </div>
+    <ol className={light ? 'sector-list sector-list-light' : 'sector-list'}>
+      {sectors.map(({ title, description, products }, index) => (
+        <li className="sector-row" key={title}>
+          <span className="sector-num">{String(index + 1).padStart(2, '0')}</span>
+          <div className="sector-text">
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </div>
+          <p className="sector-uses"><span className="sr-only">Produits utilisés : </span>{products.join(' · ')}</p>
+        </li>
+      ))}
+    </ol>
   )
 }
 
@@ -104,7 +96,7 @@ export function ProcessSteps() {
     <div className="process">
       {processSteps.map(({ title, description }, index) => (
         <div className="step" key={title}>
-          <span className="step-num">{index + 1}</span>
+          <span className="step-num">{String(index + 1).padStart(2, '0')}</span>
           <h3>{title}</h3>
           <p>{description}</p>
         </div>

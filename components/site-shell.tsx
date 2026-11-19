@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowRight, Clock, FileDown, Mail, MapPin, Menu, Navigation as RouteIcon, Phone, X } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
-import { contact } from '@/lib/contact'
+import { contact, publicEmail } from '@/lib/contact'
 
 const logoRed = '/logo-red.png'
 const logoWhite = '/logo-white.png'
@@ -24,6 +24,18 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
+  const burgerRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      setOpen(false)
+      burgerRef.current?.focus()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -34,6 +46,7 @@ export function SiteHeader() {
 
   return (
     <>
+      <a className="skip-link" href="#contenu">Aller au contenu</a>
       <div className="utility-bar">
         <div className="container">
           <div className="utility-left">
@@ -42,15 +55,17 @@ export function SiteHeader() {
           </div>
           <div className="utility-right">
             <a href={contact.phoneHref}><Phone size={15} /> {contact.phoneDisplay}</a>
-            <a href={`mailto:${contact.email}`}><Mail size={15} /> {contact.email}</a>
-            <Link className="utility-catalogue" href="/contact"><FileDown size={15} /> Catalogue PDF</Link>
+            {publicEmail && <a href={`mailto:${publicEmail}`}><Mail size={15} /> {publicEmail}</a>}
+            {contact.catalogueUrl && (
+              <a className="utility-catalogue" href={contact.catalogueUrl} target="_blank" rel="noreferrer"><FileDown size={15} /> Catalogue PDF</a>
+            )}
           </div>
         </div>
       </div>
       <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
         <div className="container header-inner">
           <Link className="brand" href="/" aria-label="Technique Résistances Maroc, accueil">
-            <Image src={logoRed} alt="" width={782} height={822} priority style={{ height: 'auto' }} />
+            <Image src={logoRed} alt="" width={54} height={57} loading="eager" />
             <span className="brand-name">
               <strong>Technique Résistances</strong>
               <small>Maroc</small>
@@ -71,6 +86,7 @@ export function SiteHeader() {
           <div className="header-actions">
             <Link className="btn btn-red" href="/contact">Devis gratuit</Link>
             <button
+              ref={burgerRef}
               className="burger"
               type="button"
               aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
@@ -108,7 +124,7 @@ export function SiteFooter() {
       <footer className="site-footer">
         <div className="container footer-grid">
           <div className="footer-brand">
-            <Image src={logoWhite} alt="Technique Résistances Maroc" width={773} height={845} style={{ height: 'auto' }} />
+            <Image src={logoWhite} alt="Technique Résistances Maroc" width={72} height={79} />
             <p>
               Conception et fabrication de résistances chauffantes et de machines industrielles sur
               mesure, à Tit Mellil depuis 2006.
@@ -139,7 +155,7 @@ export function SiteFooter() {
               <li><MapPin size={16} /> {contact.address}, Maroc</li>
               <li><Phone size={16} /> <a href={contact.phoneHref}>{contact.phoneDisplay}</a></li>
               <li><Phone size={16} /> <a href={contact.mobileHref}>{contact.mobileDisplay}</a></li>
-              <li><Mail size={16} /> <a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+              {publicEmail && <li><Mail size={16} /> <a href={`mailto:${publicEmail}`}>{publicEmail}</a></li>}
               <li><RouteIcon size={16} /> <a href={contact.mapsHref} target="_blank" rel="noreferrer">Voir l’itinéraire</a></li>
               <li><ArrowRight size={16} /> <Link href="/contact">Demander un devis</Link></li>
             </ul>

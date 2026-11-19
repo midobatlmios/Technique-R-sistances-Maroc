@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowRight, CheckCircle2, ChevronRight, ClipboardList, Plus } from 'lucide-react'
+import { ArrowRight, ChevronRight, ClipboardList, Plus } from 'lucide-react'
 import { SiteFooter, SiteHeader } from '@/components/site-shell'
 import { CtaBand, ProductCard } from '@/components/blocks'
 import { ProductArt } from '@/components/product-art'
@@ -60,7 +60,7 @@ export default async function ProductPage({ params }: PageProps<'/produits/[slug
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
         <section className="product-hero">
@@ -96,39 +96,54 @@ export default async function ProductPage({ params }: PageProps<'/produits/[slug
         </section>
 
         <section className="section">
-          <div className="container">
-            <div className="section-head">
-              <div>
-                <span className="kicker">Gamme</span>
-                <h2>Les types disponibles</h2>
-              </div>
-              <p>Chaque modèle est fabriqué selon vos dimensions, votre puissance et votre tension.</p>
-            </div>
-            <div className="info-grid">
-              {product.variants.map(({ name, text }) => (
-                <div className="info-card" key={name}>
-                  <h3>{name}</h3>
-                  <p>{text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section section-alt">
           <div className="container product-details">
-            <div>
-              <span className="kicker">Utilisation</span>
-              <h2>Applications courantes</h2>
-              <ul className="check-list">
-                {product.applications.map((a) => (
-                  <li key={a}><CheckCircle2 size={24} /><div><strong>{a}</strong></div></li>
-                ))}
-              </ul>
-              <h3 className="product-sectors-title">Secteurs concernés</h3>
-              <ul className="product-tags">
-                {product.sectors.map((s) => <li key={s}>{s}</li>)}
-              </ul>
+            <div className="datasheet">
+              <div className="datasheet-head">
+                <h2>Fiche technique</h2>
+                <span>Famille {String(index + 1).padStart(2, '0')} / {String(productFamilies.length).padStart(2, '0')}</span>
+              </div>
+              <table>
+                <tbody>
+                  <tr>
+                    <th scope="row">Désignation</th>
+                    <td>{product.title}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Modèles</th>
+                    <td>
+                      <dl className="datasheet-models">
+                        {product.variants.map(({ name, text }) => (
+                          <div key={name}><dt>{name}</dt><dd>{text}</dd></div>
+                        ))}
+                      </dl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Exécutions</th>
+                    <td>{product.tags.join(' · ')}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Dimensions, puissance, tension</th>
+                    <td>Sur mesure, d’après votre plan ou votre pièce</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Quantités</th>
+                    <td>À l’unité ou en série</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Applications</th>
+                    <td><ul className="datasheet-list">{product.applications.map((a) => <li key={a}>{a}</li>)}</ul></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Secteurs</th>
+                    <td>{product.sectors.join(' · ')}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Fabrication</th>
+                    <td>Atelier TRM, Tit Mellil (Casablanca)</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <aside className="quote-checklist">
               <ClipboardList size={34} />
@@ -141,7 +156,7 @@ export default async function ProductPage({ params }: PageProps<'/produits/[slug
           </div>
         </section>
 
-        <section className="section">
+        <section className="section section-alt">
           <div className="container product-faq-quote">
             <div>
               <span className="kicker">Questions fréquentes</span>
@@ -161,7 +176,7 @@ export default async function ProductPage({ params }: PageProps<'/produits/[slug
           </div>
         </section>
 
-        <section className="section section-alt">
+        <section className="section">
           <div className="container">
             <div className="section-head">
               <div>

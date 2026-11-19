@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { SiteFooter, SiteHeader } from '@/components/site-shell'
 import { PageHeader } from '@/components/blocks'
 import { LegalField } from '@/components/legal-field'
-import { contact } from '@/lib/contact'
-import { company, host, lastUpdated } from '@/lib/legal'
+import { contact, publicEmail } from '@/lib/contact'
+import { company, host, lastUpdated, showLegal } from '@/lib/legal'
 import { photos } from '@/lib/catalogue'
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         <PageHeader
           crumb="Confidentialité"
           title="Politique de"
@@ -37,7 +37,7 @@ export default function PrivacyPage() {
             <h2>Responsable du traitement</h2>
             <p>
               {company.name}, {company.address}. Contact :{' '}
-              <a href={`mailto:${contact.email}`}>{contact.email}</a> · <a href={contact.phoneHref}>{contact.phoneDisplay}</a>.
+              {publicEmail && <><a href={`mailto:${publicEmail}`}>{publicEmail}</a> · </>}<a href={contact.phoneHref}>{contact.phoneDisplay}</a>.
             </p>
 
             <h2>Données collectées</h2>
@@ -88,17 +88,24 @@ export default function PrivacyPage() {
             <h2>Vos droits</h2>
             <p>
               Conformément à la loi 09-08, vous disposez d’un droit d’accès, de rectification et d’opposition au
-              traitement de vos données. Pour l’exercer, écrivez-nous à{' '}
-              <a href={`mailto:${contact.email}`}>{contact.email}</a> en précisant votre demande.
+              traitement de vos données. Pour l’exercer,{' '}
+              {publicEmail ? (
+                <>écrivez-nous à <a href={`mailto:${publicEmail}`}>{publicEmail}</a></>
+              ) : (
+                <>appelez-nous au <a href={contact.phoneHref}>{contact.phoneDisplay}</a></>
+              )}{' '}
+              en précisant votre demande.
             </p>
             <p>
               Vous pouvez également adresser une réclamation à la Commission Nationale de contrôle de la protection
               des Données à caractère Personnel (CNDP) :{' '}
               <a href="https://www.cndp.ma" target="_blank" rel="noreferrer">www.cndp.ma</a>.
             </p>
-            <p>
-              Déclaration auprès de la CNDP : <LegalField value={company.cndp} />.
-            </p>
+            {showLegal(company.cndp) && (
+              <p>
+                Déclaration auprès de la CNDP : <LegalField value={company.cndp} />.
+              </p>
+            )}
 
             <h2>Cookies et mesure d’audience</h2>
             <p>

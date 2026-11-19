@@ -13,7 +13,7 @@ export default function SectorsPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         <PageHeader
           crumb="Secteurs"
           title="Les secteurs"

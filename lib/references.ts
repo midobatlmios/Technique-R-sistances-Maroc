@@ -4,6 +4,8 @@
 // Only add clients who agreed to be shown on the site.
 export type Reference = { name: string; logo?: string }
 
+import { isDemo } from '@/lib/site'
+
 export const references: Reference[] = [
   // Placeholders until the client provides real logos (entries without `logo` render as an empty slot).
   { name: 'Logo client 1' },
@@ -15,3 +17,6 @@ export const references: Reference[] = [
   { name: 'Logo client 7' },
   { name: 'Logo client 8' },
 ]
+
+// Slots without a logo are only shown in demo mode; the section is hidden when nothing is left.
+export const visibleReferences = isDemo ? references : references.filter((ref) => ref.logo)

@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { ArrowRight, CheckCircle2, Gauge, ShieldCheck, Wrench } from 'lucide-react'
 import { SiteFooter, SiteHeader } from '@/components/site-shell'
 import { CtaBand, PageHeader } from '@/components/blocks'
-import { photo, photos } from '@/lib/catalogue'
+import { Photo } from '@/components/photo'
+import { photos } from '@/lib/catalogue'
 
 export const metadata: Metadata = {
   title: 'L’entreprise | Technique Résistances Maroc, fabricant depuis 2006',
@@ -21,7 +22,7 @@ export default function AboutPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         <PageHeader
           crumb="L’entreprise"
           title="Fabricant marocain"
@@ -32,7 +33,8 @@ export default function AboutPage() {
 
         <section className="section">
           <div className="container split">
-            <div className="split-photo" style={{ backgroundImage: `url(${photo(photos.furnaceWorker, 1200)})` }}>
+            <div className="split-photo">
+              <Photo id={photos.furnaceWorker} sizes="(max-width: 900px) 100vw, 600px" />
               <div className="split-badge">
                 <strong>2006</strong>
                 <span>Création de l’entreprise</span>

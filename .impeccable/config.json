@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "app/globals.css"
+        ],
+        "createdAt": "2026-11-17T23:04:25.303Z",
+        "reason": "Claude (P3 polish): red top bar is the site's recurring accent; top corners are now square (radius 0 0 4px 4px), so the bar no longer meets a rounded corner"
+      },
+      {
+        "rule": "overused-font",
+        "value": "arial",
+        "files": [
+          "app/api/devis/route.ts"
+        ],
+        "createdAt": "2026-11-17T23:06:03.130Z",
+        "reason": "Claude (re-audit): HTML email template; email clients need system fonts, the site itself uses Barlow"
+      }
+    ]
+  }
+}

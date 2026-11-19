@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { SiteFooter, SiteHeader } from '@/components/site-shell'
 import { CtaBand, PageHeader, ProcessSteps } from '@/components/blocks'
-import { machines, photo, photos } from '@/lib/catalogue'
+import { Photo } from '@/components/photo'
+import { machines, photos } from '@/lib/catalogue'
 
 export const metadata: Metadata = {
   title: 'Machines : fours industriels, réchauffeurs RLT, emballage | Technique Résistances Maroc',
@@ -15,7 +16,7 @@ export default function MachinesPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         <PageHeader
           crumb="Machines"
           title="Machines et"
@@ -28,7 +29,7 @@ export default function MachinesPage() {
           <div className="container machine-rows">
             {machines.map((m, index) => (
               <article className="machine-row" key={m.title}>
-                <div className="machine-row-photo" style={{ backgroundImage: `url(${photo(m.photo, 1200)})` }} />
+                <div className="machine-row-photo"><Photo id={m.photo} sizes="(max-width: 900px) 100vw, 600px" /></div>
                 <div>
                   <span className="kicker">Équipement {String(index + 1).padStart(2, '0')}</span>
                   <h2>{m.title}</h2>
