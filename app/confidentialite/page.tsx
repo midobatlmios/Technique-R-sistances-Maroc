@@ -109,8 +109,9 @@ export default function PrivacyPage() {
 
             <h2>Cookies et mesure d’audience</h2>
             <p>
-              Ce site n’utilise pas de cookies publicitaires. Une mesure d’audience anonyme peut être utilisée pour
-              connaître la fréquentation des pages, sans identifier les visiteurs.
+              Ce site n’utilise pas de cookies publicitaires. Une mesure d’audience anonyme, sans cookies, peut être
+              utilisée pour connaître la fréquentation des pages et compter les clics sur les boutons d’appel,
+              WhatsApp, itinéraire et demande de devis, sans identifier les visiteurs.
             </p>
             <p>
               Les liens WhatsApp et Google Maps vous redirigent vers des services tiers, soumis à leurs propres

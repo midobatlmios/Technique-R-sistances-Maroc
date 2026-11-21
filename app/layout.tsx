@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Barlow, Barlow_Condensed } from 'next/font/google'
 import { Motion } from '@/components/motion'
+import { ClickTracking } from '@/components/click-tracking'
 import { publicEmail } from '@/lib/contact'
 import { siteName, siteUrl } from '@/lib/site'
 import './globals.css'
@@ -76,6 +77,7 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }} />
         {children}
         <Motion />
+        <ClickTracking />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

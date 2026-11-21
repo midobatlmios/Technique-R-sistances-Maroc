@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { AlertCircle, ArrowRight, CheckCircle2, Loader2, Paperclip } from 'lucide-react'
 import { contact } from '@/lib/contact'
 import { machineTypes, productFamilies } from '@/lib/catalogue'
+import { track } from '@/lib/track'
 
 const MAX_FILE_BYTES = 4 * 1024 * 1024
 
@@ -88,6 +89,7 @@ export function QuoteForm({ defaultProduct = '' }: { defaultProduct?: string }) 
         get('quantite') && `Quantité : ${get('quantite')}`,
         get('message') && `Projet : ${get('message')}`,
       ].filter(Boolean)
+      track('devis-envoye', { produit: get('besoin') || 'non précisé' })
       setSent({ reference: result.reference, summary: lines.join('\n'), name: get('nom').split(' ')[0] })
     } catch {
       setError('Connexion impossible. Vérifiez votre réseau ou contactez-nous par téléphone ou WhatsApp.')

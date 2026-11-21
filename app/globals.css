@@ -287,6 +287,27 @@ p { margin: 0; }
 .viewer-prev { left: 12px; top: 50%; transform: translateY(-50%); }
 .viewer-next { right: 12px; top: 50%; transform: translateY(-50%); }
 
+/* 404 page */
+.not-found { padding: 88px 0 104px; background: linear-gradient(var(--drawing-grid) 1px, transparent 1px) 0 0 / 24px 24px, linear-gradient(90deg, var(--drawing-grid) 1px, transparent 1px) 0 0 / 24px 24px, var(--bg-alt); border-bottom: 1px solid var(--line); }
+.not-found-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 64px; align-items: start; }
+.not-found-code { margin-bottom: 14px; color: var(--red); font-family: ui-monospace, Consolas, monospace; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; }
+.not-found h1 { font-size: clamp(44px, 6vw, 76px); line-height: .98; text-transform: uppercase; }
+.not-found-lead { max-width: 560px; margin-top: 20px; color: var(--text); font-size: 19px; }
+.not-found-help { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 28px; color: var(--muted); font-size: 16px; }
+.not-found-help a { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font-weight: 600; }
+.not-found-help a:hover { color: var(--red); }
+.not-found-links { padding: 28px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); }
+.not-found-links h2 { margin-bottom: 12px; font-size: 22px; text-transform: uppercase; }
+.not-found-links ul { margin: 0; padding: 0; list-style: none; }
+.not-found-links a { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--text); font-size: 16px; transition: color .2s; }
+.not-found-links li:last-child a { border-bottom: 0; }
+.not-found-links a span { color: var(--red); font-family: var(--display); font-weight: 700; }
+.not-found-links a:hover { color: var(--red); }
+@media (max-width: 900px) {
+  .not-found { padding: 56px 0 72px; }
+  .not-found-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+}
+
 /* Section-head variants so every section doesn't open the same way. */
 .section-head-link { align-items: end; }
 .section-head-link p { margin-top: 14px; max-width: 560px; }
